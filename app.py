@@ -1,14 +1,12 @@
 from flask import Flask, request, jsonify, render_template
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import os
 import joblib
 import numpy as np
-import chromedriver_autoinstaller  # ✅ Auto-install latest ChromeDriver
 
 app = Flask(__name__)
 
@@ -16,27 +14,22 @@ app = Flask(__name__)
 model = joblib.load("model/model.pkl")
 scaler = joblib.load("model/scaler.pkl")
 
-# ✅ Auto-install & update ChromeDriver
-chromedriver_autoinstaller.install()
-
-# ✅ Get Chrome & ChromeDriver paths from environment variables (Render)
+# ✅ Get Chrome & Chromedriver Paths from Environment Variables
 CHROME_PATH = os.getenv("GOOGLE_CHROME_BIN", "/usr/bin/google-chrome")
-CHROMEDRIVER_PATH = os.getenv("CHROMEDRIVER_PATH", "/usr/bin/chromedriver")
+CHROMEDRIVER_PATH = os.getenv("CHROMEDRIVER_PATH", "/usr/local/bin/chromedriver")
 
 # ✅ Configure Chrome Options
-options = Options()
-options.binary_location = CHROME_PATH
-options.add_argument("--headless")  # Run in headless mode
+options = webdriver.ChromeOptions()
+options.binary_location = CHROME_PATH  # Use Chrome from environment variable
+options.add_argument("--headless=new")  # Headless mode
 options.add_argument("--disable-gpu")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("--ignore-certificate-errors")
-options.add_argument("--ignore-ssl-errors=yes")
 
 def scrape_instagram(username):
     try:
-        service = Service(CHROMEDRIVER_PATH)
+        service = Service(CHROMEDRIVER_PATH)  # Use correct Chromedriver path
         driver = webdriver.Chrome(service=service, options=options)
         driver.get(f"https://socialblade.com/instagram/user/{username}")
         wait = WebDriverWait(driver, 10)
