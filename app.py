@@ -15,7 +15,7 @@ model = joblib.load("model/model.pkl")
 scaler = joblib.load("model/scaler.pkl")
 
 
-CHROMEDRIVER_PATH = "D:/resources/New folder/chromedriver.exe"
+CHROMEDRIVER_PATH = "D:/resources/New folder/Instagram-Fake-Profile-Detector/chromedriver.exe"
 CHROME_PROFILE_PATH = "C:/Users/hp/AppData/Local/Google/Chrome/User Data/default"
 
 
