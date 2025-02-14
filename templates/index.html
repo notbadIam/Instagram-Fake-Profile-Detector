@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Profile Authenticity Detector</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="../static/card.css">
+</head>
+<body>
+    <main class="main-container">
+        <div class="content-box">
+            <h1 class="title">Instagram Profile Authenticity Detector</h1>
+            <form id="analyzeForm" class="form-container">
+                <div class="input-group">
+                    <input type="text" id="profileUrl" placeholder="Enter Instagram profile URL">
+                    <button type="submit" id="analyzeBtn">Analyze</button>
+                </div>
+            </form>
+
+            <!-- Speedometer (Google Gauge Chart) -->
+            <div id="speedometerChart" style="width: 400px; height: 200px; margin: auto;"></div>
+                <div id="metrics">
+                    <div class="metric">
+                        <img src="../static/images/410373-200.png" alt="followers-icon" class="metric-icon" id="followers-count">
+                        <p><strong>Followers:</strong> <span id="followers">Loading...</span></p>
+                    </div>
+                    <div class="metric">
+                        <img src="../static/images/images.png" alt="likes-icon" class="metric-icon">
+                        <p><strong>No. of Posts:</strong> <span id="likes">Loading...</span></p>
+                    </div>
+                    <div class="metric">
+                        <img src="../static/images/follow-42.png" alt="comments-icon" class="metric-icon">
+                        <p><strong>Following:</strong> <span id="comments">Loading...</span></p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </main>
+
+    <script src="../static/csrd.js"></script>
+</body>
+</html>
