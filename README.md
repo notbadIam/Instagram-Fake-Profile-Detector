@@ -1,1 +1,1 @@
-The requirement for this is that the instagram account should be professional/business.
+The requirement for this project is the instagram account should be professional/business.
