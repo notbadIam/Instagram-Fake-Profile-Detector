@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import os
 
 
-CHROMEDRIVER_PATH = "D:/resources/New folder/chromedriver.exe"  
+CHROMEDRIVER_PATH = "D:/resources/New folder/Instagram-Fake-Profile-Detector/chromedriver.exe"  
 CHROME_PROFILE_PATH = "C:/Users/hp/AppData/Local/Google/Chrome/User Data/default"  
 
 # Chrome Options (Headless & User Profile)
