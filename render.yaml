@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: instagram-fake-profile-detector
+    env: python
+    plan: free
+    buildCommand: |
+      pip install --no-cache-dir -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: GOOGLE_CHROME_BIN
+        value: /usr/bin/google-chrome
+      - key: CHROMEDRIVER_PATH
+        value: /usr/bin/chromedriver
