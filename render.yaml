@@ -4,10 +4,11 @@ services:
     env: python
     plan: free
     buildCommand: |
-      pip install --no-cache-dir -r requirements.txt
+      python -m venv venv
+      source venv/bin/activate
+      python -m pip install --upgrade pip
+      pip install --force-reinstall --no-cache-dir Flask numpy pandas scikit-learn requests gunicorn webdriver-manager selenium joblib chromedriver-autoinstaller
     startCommand: gunicorn app:app
     envVars:
-      - key: GOOGLE_CHROME_BIN
-        value: /usr/bin/google-chrome
-      - key: CHROMEDRIVER_PATH
-        value: /usr/bin/chromedriver
+      - key: PYTHON_VERSION
+        value: 3.10
