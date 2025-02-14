@@ -1,34 +1,42 @@
 from flask import Flask, request, jsonify, render_template
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import chromedriver_autoinstaller  # Automatically installs the right ChromeDriver version
 import os
 import joblib
 import numpy as np
+import chromedriver_autoinstaller  # ✅ Auto-install latest ChromeDriver
 
 app = Flask(__name__)
 
-# Load the ML model & scaler
+# ✅ Load ML Model & Scaler
 model = joblib.load("model/model.pkl")
 scaler = joblib.load("model/scaler.pkl")
 
-# Ensure the correct ChromeDriver version is installed
+# ✅ Auto-install & update ChromeDriver
 chromedriver_autoinstaller.install()
 
-# Set Chrome options
-options = webdriver.ChromeOptions()
-options.add_argument("--headless=new")  # Run in headless mode (useful for cloud)
+# ✅ Get Chrome & ChromeDriver paths from environment variables (Render)
+CHROME_PATH = os.getenv("GOOGLE_CHROME_BIN", "/usr/bin/google-chrome")
+CHROMEDRIVER_PATH = os.getenv("CHROMEDRIVER_PATH", "/usr/bin/chromedriver")
+
+# ✅ Configure Chrome Options
+options = Options()
+options.binary_location = CHROME_PATH
+options.add_argument("--headless")  # Run in headless mode
+options.add_argument("--disable-gpu")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("--ignore-certificate-errors")
 options.add_argument("--ignore-ssl-errors=yes")
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
 
 def scrape_instagram(username):
     try:
-        service = Service()
+        service = Service(CHROMEDRIVER_PATH)
         driver = webdriver.Chrome(service=service, options=options)
         driver.get(f"https://socialblade.com/instagram/user/{username}")
         wait = WebDriverWait(driver, 10)
