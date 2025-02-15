@@ -19,6 +19,8 @@ COPY . .
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=production
 
+RUN pip install --upgrade pip setuptools wheel
+
 # Railway assigns a dynamic port, so we use an environment variable
 EXPOSE 5000
 ENV PORT=5000
