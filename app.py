@@ -4,6 +4,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 import os
 import joblib
 import numpy as np
@@ -16,12 +18,6 @@ app = Flask(__name__)
 
 model = joblib.load("model/model.pkl")
 scaler = joblib.load("model/scaler.pkl")
-
-
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 
 options = Options()
 options.add_argument("--headless")  
