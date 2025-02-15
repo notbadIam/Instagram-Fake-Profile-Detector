@@ -18,9 +18,12 @@ model = joblib.load("model/model.pkl")
 scaler = joblib.load("model/scaler.pkl")
 
 
-CHROMEDRIVER_PATH = "chromedriver.exe"
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
-options = webdriver.ChromeOptions()
+options = Options()
 options.add_argument("--headless")  
 options.add_argument("--window-size=1920,1080")  
 options.add_argument("--start-maximized")  
@@ -28,7 +31,11 @@ options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--no-sandbox") 
 options.add_argument("--log-level=3")  
 options.add_argument("--disable-extensions")  
-options.add_argument("--disable-infobars") 
+options.add_argument("--disable-infobars")  
+
+# Automatically download and use ChromeDriver
+service = Service(ChromeDriverManager().install())
+driver = webdriver.Chrome(service=service, options=options)
 
 
 
@@ -51,10 +58,6 @@ def clean_and_convert(text, remove_word):
 
 def scrape_instagram(username):
     """Scrapes Instagram profile data using Selenium."""
-    if not os.path.exists(CHROMEDRIVER_PATH):
-        return {"error": "ChromeDriver not found! Check the path."}
-    
-    service = Service(CHROMEDRIVER_PATH)
     driver = webdriver.Chrome(service=service, options=options)
     driver.get(f"https://app.iqhashtags.com/preview?profile={username}&referrer=webstagram")
     time.sleep(5) 
