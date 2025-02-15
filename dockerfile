@@ -1,29 +1,19 @@
-# Use an official Python image
-FROM python:3.11-slim
+FROM python:3.12
 
-# Set the working directory
-WORKDIR /app
+# Ensure system packages are updated
+RUN apt update && apt install -y python3-distutils
 
-# Install system dependencies (minimal)
-RUN apt-get update && apt-get install -y \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy requirements file and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the application code
-COPY . .
-
-# Set the Flask environment variables
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=production
-
+# Upgrade pip and install required dependencies
 RUN pip install --upgrade pip setuptools wheel
 
-# Railway assigns a dynamic port, so we use an environment variable
-EXPOSE 5000
-ENV PORT=5000
+# Set working directory
+WORKDIR /app
+
+# Copy project files
+COPY . .
+
+# Install dependencies from requirements.txt
+RUN pip install -r requirements.txt
 
 # Command to run the application
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
+CMD ["python", "app.py"]
